@@ -17,6 +17,8 @@ const removeCurrentUser = () => {
   }
 }
 
+//thunk actions
+
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
   const response = await fetch('/api/session', {
@@ -35,6 +37,19 @@ export const restoreUser = () => async (dispatch) => {
   dispatch(setCurrentUser(res.data.user));
   return res;
 }
+
+export const signup = (user) => async (dispatch) => {
+  const { username, email, password } = user;
+  const response = await fetch('/api/users', {
+    method: 'POST',
+    body: JSON.stringify({ username, email, password}),
+  });
+  dispatch(setCurrentUser(response.data.user));
+  return response;
+}
+
+
+//reducers
 
 const sessionReducer = (state = { user: null }, action) => {
   let newState;
